@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Template
+metadata:
+  annotation:
+    description: HAProxy reverse proxy for high availability environments.
+    tags: haproxy
+    template: docker.io/phracek/haproxy
+  name: haproxy
+objects:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    name: haproxy
+  spec:
+      dockerImageRepository: docker.io/phracek/haproxy
+  tags:
+  - name: latest
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    name: haproxy
+  spec:
+    dockerImageRepository: docker.io/phracek/haproxy
+    replicas: 1
+    strategy:
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          name: haproxy
+      spec:
+        containers:
+        - env:
+          image: docker.io/phracek/haproxy
+          name: haproxy
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - docker.io/phracek/haproxy
+        from:
+          kind: ImageStreamTag
+          name: haproxy:latest
+      type: ImageChange
