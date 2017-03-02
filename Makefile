@@ -2,7 +2,7 @@
 
 IMAGE_NAME = haproxy
 
-defult: run
+default: run
 
 build:
 	docker build --tag=$(IMAGE_NAME) .
@@ -10,5 +10,5 @@ build:
 run: build
 	docker run -d $(IMAGE_NAME)
 
-test:
-	run_test.sh
+check:
+	./run_tests.sh

@@ -1,0 +1,28 @@
+document: modularity-testing
+version: 1
+name: haproxy
+modulemd-url: http://raw.githubusercontent.com/container-images/haproxy/master/haproxy.yaml
+service:
+    port: 80
+packages:
+    rpms:
+        - haproxy
+module:
+    docker:
+        start: "docker run -it -p 80:80"
+        labels:
+            description: "HAProxy reverse proxy for high availability environments"
+            io.k8s.description: "HAProxy reverse proxy for high availability environments"
+        source: https://github.com/container-images/haproxy.git
+        container: docker.io/phracek/haproxy
+    rpm:
+        start: systemctl start haproxy
+        stop: systemctl stop haproxy
+        status: systemctl status haproxy
+        repos:
+            - http://download.englab.brq.redhat.com/pub/fedora/releases/25/Everything/x86_64/os/
+            - https://phracek.fedorapeople.org/haproxy-module-repo/
+test:
+    processrunning:
+        - 'ls  /proc/*/exe -alh | grep haproxy'
+
