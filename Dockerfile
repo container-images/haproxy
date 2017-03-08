@@ -10,6 +10,8 @@ LABEL summary="HAProxy reverse proxy for high availability environments." \
     io.k8s.diplay-name="HAProxy 1.6 " \
     io.openshift.tags="haproxy"
 
+EXPOSE 80
+
 ADD files /files
 MAINTAINER "Petr Hracek" <phracek@redhat.com>
 
