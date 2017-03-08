@@ -1,6 +1,6 @@
 FROM fedora:25
 
-RUN dnf install -y --setopt=tsflags=nodocs haproxy && \
+RUN dnf install -y --setopt=tsflags=nodocs haproxy which bash && \
     dnf -y clean all
 
 LABEL summary="HAProxy reverse proxy for high availability environments." \
@@ -15,4 +15,5 @@ EXPOSE 80
 ADD files /files
 MAINTAINER "Petr Hracek" <phracek@redhat.com>
 
-CMD ["/files/haproxy.sh"]
+ENTRYPOINT ["/files/docker-entrypoint.sh"]
+CMD ["haproxy", "-f", "/etc/haproxy/haproxy.cfg"]
