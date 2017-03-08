@@ -11,4 +11,4 @@ if [[ ! -z "${DEBUG_MODE}" ]]; then
 fi
 
 # Run haproxy binary
-/usr/sbin/haproxy
+/usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg
