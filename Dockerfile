@@ -1,10 +1,10 @@
-FROM fedora:25
+FROM fedora:26
 
 RUN dnf install -y --setopt=tsflags=nodocs haproxy which bash && \
     dnf -y clean all
 
 LABEL summary="HAProxy reverse proxy for high availability environments." \
-    version="1.6" \
+    version="0" \
     description="HAProxy is a TCP/HTTP reverse proxy which is particularly suited for high availability environments." \
     io.k8s.description="HAProxy is a TCP/HTTP reverse proxy which is particularly suited for high availability environments." \
     io.k8s.diplay-name="HAProxy 1.6 " \
@@ -13,7 +13,8 @@ LABEL summary="HAProxy reverse proxy for high availability environments." \
 EXPOSE 80
 
 ADD files /files
-MAINTAINER "Petr Hracek" <phracek@redhat.com>
+LABEL MAINTAINER "Petr Hracek" <phracek@redhat.com>
 
 ENTRYPOINT ["/files/docker-entrypoint.sh"]
-CMD ["haproxy", "-f", "/etc/haproxy/haproxy.cfg"]
+CMD ["/usr/sbin/haproxy", "-p", "/run/haproxy.pid", "-f", "/etc/haproxy/haproxy.cfg", "-D", "s"]
+
