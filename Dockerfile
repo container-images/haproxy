@@ -1,23 +1,23 @@
-FROM fedora:26
+FROM registry.fedoraproject.org/fedora:26
 
-RUN dnf install -y --setopt=tsflags=nodocs haproxy which bash && \
-    dnf -y clean all
-
-ENV NAME=haproxy
+ENV NAME=haproxy ARCH=x86_64
 LABEL MAINTAINER "Petr Hracek" <phracek@redhat.com>
 LABEL summary="HAProxy reverse proxy for high availability environments." \
-    Name="$FGC/$NAME" \
+    name="$FGC/$NAME" \
     Version="0" \
-    Release="1.$DISTTAG" \
-    Architecture="$ARCH" \
-    BZComponent=$NAME \
-    Usage="docker run -p 80:80 docker.io/modularityimages/haproxy" \
-    Help="Runs haproxy, which listens on port 80. No dependencies. See Help File below for more details." \
+    release="1.$DISTTAG" \
+    architecture="$ARCH" \
+    com.redhat.component=$NAME \
+    usage="docker run -p 80:80 docker.io/modularityimages/haproxy" \
+    help="Runs haproxy, which listens on port 80. No dependencies. See Help File below for more details." \
     description="HAProxy is a TCP/HTTP reverse proxy which is particularly suited for high availability environments." \
     io.k8s.description="HAProxy is a TCP/HTTP reverse proxy which is particularly suited for high availability environments." \
     io.k8s.diplay-name="HAProxy 1.6 " \
     io.openshift.expose-services="80:haproxy" \
     io.openshift.tags="haproxy"
+
+RUN dnf install -y --setopt=tsflags=nodocs haproxy which bash && \
+    dnf -y clean all
 
 EXPOSE 80
 
