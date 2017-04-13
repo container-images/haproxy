@@ -4,7 +4,7 @@ ENV NAME=haproxy ARCH=x86_64
 LABEL MAINTAINER "Petr Hracek" <phracek@redhat.com>
 LABEL summary="HAProxy reverse proxy for high availability environments." \
     name="$FGC/$NAME" \
-    Version="0" \
+    version="0" \
     release="1.$DISTTAG" \
     architecture="$ARCH" \
     com.redhat.component=$NAME \
