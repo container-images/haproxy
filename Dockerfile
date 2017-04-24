@@ -24,6 +24,7 @@ EXPOSE 80
 ADD files /files
 ADD help.md README.md /
 
-ENTRYPOINT ["/files/docker-entrypoint.sh"]
-CMD ["/usr/sbin/haproxy", "-p", "/run/haproxy.pid", "-f", "/etc/haproxy/haproxy.cfg", "-D", "s"]
+COPY docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["/usr/sbin/haproxy", "-f", "/etc/haproxy/haproxy.cfg"]
 
