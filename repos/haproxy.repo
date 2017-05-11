@@ -1,0 +1,4 @@
+[haproxy]
+name=haproxy
+baseurl=https://kojipkgs.fedoraproject.org/repos/module-ae0742b768dc7582/latest/x86_64/
+enabled=0

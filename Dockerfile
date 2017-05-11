@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora:26
+FROM baseruntime/baseruntime:latest
 
 ENV NAME=haproxy ARCH=x86_64
 LABEL MAINTAINER "Petr Hracek" <phracek@redhat.com>
@@ -16,8 +16,10 @@ LABEL summary="HAProxy reverse proxy for high availability environments." \
     io.openshift.expose-services="80:haproxy" \
     io.openshift.tags="haproxy"
 
-RUN dnf install -y --setopt=tsflags=nodocs haproxy which bash && \
-    dnf -y clean all
+COPY repos/* /etc/yum.repos.d/
+RUN microdnf --nodocs --enablerepo fedora install which bash && \
+    microdnf --nodocs --enablerepo haproxy install haproxy  && \
+    microdnf -y clean all
 
 EXPOSE 80
 
