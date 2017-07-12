@@ -1,4 +1,4 @@
-FROM baseruntime/baseruntime:latest
+FROM modularitycontainers/boltron-preview:latest
 
 ENV NAME=haproxy ARCH=x86_64
 LABEL MAINTAINER "Petr Hracek" <phracek@redhat.com>
@@ -16,10 +16,8 @@ LABEL summary="HAProxy reverse proxy for high availability environments." \
     io.openshift.expose-services="80:haproxy" \
     io.openshift.tags="haproxy"
 
-COPY repos/* /etc/yum.repos.d/
-RUN microdnf --nodocs --enablerepo fedora install which bash && \
-    microdnf --nodocs --enablerepo haproxy install haproxy  && \
-    microdnf -y clean all
+RUN dnf install -y --nodocs haproxy  && \
+    dnf -y clean all
 
 EXPOSE 80
 
