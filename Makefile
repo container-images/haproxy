@@ -1,6 +1,6 @@
 .PHONY: build run defult
 
-IMAGE_NAME = haproxy
+IMAGE_NAME = modularitycontainers/haproxy
 
 default: run
 

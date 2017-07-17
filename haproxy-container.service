@@ -2,7 +2,7 @@
 Description="HAProxy reverse proxy for high availability environments."
 
 [Service]
-ExecStart=/usr/bin/docker run -v /etc/sysconfig/haproxy:/etc/sysconfig/haproxy:ro -v /etc/haproxy/haproxy.cfg:/etc/haproxy/haproxy.cfg:ro -p 80:80 --name haproxy haproxy
+ExecStart=/usr/bin/docker run -d --net host -v /etc/haproxy/haproxy.cfg:/etc/haproxy/haproxy.cfg:ro -p 80:80 --name haproxy modularitycontainers/haproxy
 ExecStop=/usr/bin/docker stop -t 2 haproxy
 ExecStopPost=/usr/bin/docker rm -f haproxy
 Type=oneshot
