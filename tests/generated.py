@@ -1,17 +1,22 @@
 #!/usr/bin/python
 
-import socket
 from avocado import main
-import moduleframework
+from moduleframework import module_framework
 
-if __name__ == '__main__':
-    main()
 
-class GeneratedTestsConfig(moduleframework.AvocadoTest):
+class SanityCheck1(module_framework.AvocadoTest):
     """
     :avocado: enable
     """
 
-    def test_processrunning(self):
+    def test_process_is_running(self):
         self.start()
-        self.run("ls  /proc/*/exe -alh | grep haproxy")
+        self.run("cat /proc/1/cmdline | egrep '^/usr/sbin/haproxy'")
+
+    def test_haproxy_accepts_connections(self):
+        self.start()
+        self.run("curl http://localhost:5000/")
+
+
+if __name__ == '__main__':
+    main()
