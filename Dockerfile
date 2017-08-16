@@ -1,4 +1,4 @@
-FROM modularitycontainers/boltron-preview
+FROM registry.fedoraproject.org/f26-modular/boltron
 
 ENV NAME=haproxy ARCH=x86_64
 LABEL MAINTAINER "Petr Hracek" <phracek@redhat.com>
@@ -20,10 +20,10 @@ RUN dnf --nodocs -y install --rpm which && \
     dnf --nodocs -y install haproxy && \
     dnf clean all
 
-EXPOSE 80
+EXPOSE 5000
 
 ADD files /files
-ADD help.md README.md /
+ADD help.md /
 
 COPY docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
