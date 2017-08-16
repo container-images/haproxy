@@ -14,7 +14,7 @@ module:
             description: "HAProxy reverse proxy for high availability environments"
             io.k8s.description: "HAProxy reverse proxy for high availability environments"
         source: https://github.com/container-images/haproxy.git
-        container: docker.io/phracek/haproxy
+        container: modularitycontainers/haproxy
     rpm:
         start: systemctl start haproxy
         stop: systemctl stop haproxy
