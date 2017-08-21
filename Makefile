@@ -10,5 +10,7 @@ build:
 run: build
 	docker run -d $(IMAGE_NAME)
 
-check:
-	./run_tests.sh
+test:
+	cd tests && MODULE=docker avocado run /usr/share/moduleframework/tools/modulelint.py ./*.py
+	# commented out b/c the first test is container specific
+	# cd tests && MODULE=rpm avocado run  ./*.py
