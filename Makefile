@@ -1,16 +1,43 @@
-.PHONY: build run defult
+.PHONY: build run default test doc dg upstream downstream
 
-IMAGE_NAME = modularitycontainers/haproxy
+VARIANT := upstream
+DISTRO = fedora-26-x86_64
+DG = /usr/bin/dg
+GOMD2MAN = /usr/bin/go-md2man
+DOCKERFILE_RENDERED = Dockerfile.rendered
+DG_EXEC = ${DG} --max-passes 25 --distro ${DISTRO}.yaml --spec specs/configuration.yml --multispec specs/multispec.yml --multispec-selector variant=$(VARIANT)
+DISTRO_ID = $(shell ${DG_EXEC} --template "{{ config.os.id }}")
+
+IMAGE_REPOSITORY = $(shell ${DG_EXEC} --template "{{ spec.image_repository }}")
 
 default: run
 
-build:
-	docker build --tag=$(IMAGE_NAME) .
+build: doc
+	docker build --tag=$(IMAGE_REPOSITORY) -f ${DOCKERFILE_RENDERED} .
 
 run: build
-	docker run -d $(IMAGE_NAME)
+	docker run -d $(IMAGE_REPOSITORY)
 
-test:
-	cd tests && MODULE=docker avocado run /usr/share/moduleframework/tools/modulelint.py ./*.py
-	# commented out b/c the first test is container specific
-	# cd tests && MODULE=rpm avocado run  ./*.py
+doc: dg
+	mkdir -p ./root/
+	${GOMD2MAN} -in=help/help.md.rendered -out=./root/help.1
+
+upstream:
+	make -e doc VARIANT="upstream"
+	make VARIANT="upstream"
+
+downstream:
+	make -e doc VARIANT="downstream"
+	make VARIANT="downstream"
+
+dg:
+	${DG_EXEC} --template Dockerfile --output ${DOCKERFILE_RENDERED}
+	${DG_EXEC} --template help/help.md --output help/help.md.rendered
+
+test: build
+	cd tests; MODULE=docker MODULEMD=$(MODULEMDURL) URL="docker=$(IMAGE_REPOSITORY)" mtf *.py
+
+clean:
+	rm -f Dockerfile.*
+	rm -f help/help.md.*
+	rm -r ./root
