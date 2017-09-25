@@ -9,7 +9,7 @@
 {{ spec.description }}
 
 The container itself consists of:
-    - {{ config.os.version }} base image
+    - {{ config.docker.from }} base image
     - {{ spec.envvars.name }} RPM package
 
 Files added to the container during docker build include: /files/haproxy.sh
@@ -17,7 +17,7 @@ Files added to the container during docker build include: /files/haproxy.sh
 # USAGE
 To get the memcached container image on your local system, run the following:
 
-    docker pull docker.io/modularitycontainers/{{ spec.envvars.name }}
+    docker pull {{ spec.image_repository }}
     
 # SECURITY IMPLICATIONS 
 Lists of security-related attributes that are opened to the host.
