@@ -35,7 +35,7 @@ dg:
 	${DG_EXEC} --template help/help.md --output help/help.md.rendered
 
 test: build
-	cd tests; MODULE=docker MODULEMD=$(MODULEMDURL) URL="docker=$(IMAGE_REPOSITORY)" mtf *.py
+	cd tests; MODULE=docker DOCKERFILE="../${DOCKERFILE_RENDERED}" URL="docker=$(IMAGE_REPOSITORY)" mtf -l *.py
 
 clean:
 	rm -f Dockerfile.*
