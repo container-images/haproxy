@@ -1,29 +1,29 @@
 % HAPROXY(1) Container Image Pages
 % Petr Hracek
-% March 2, 2017
+% September 22, 2017
 
 # NAME
-haproxy - HAProxy reverse proxy for high availability environments.
+{{ spec.envvars.name }} - {{ spec.short_description }}
 
 # DESCRIPTION
-HAProxy is a TCP/HTTP reverse proxy which is particularly suited for high availability environments.
+{{ spec.description }}
 
 The container itself consists of:
-    - fedora/26 base image
-    - haproxy RPM package
+    - {{ config.docker.from }} base image
+    - {{ spec.envvars.name }} RPM package
 
 Files added to the container during docker build include: /files/haproxy.sh
 
 # USAGE
 To get the memcached container image on your local system, run the following:
 
-    docker pull hub.docker.io/phracek/haproxy 
+    docker pull {{ spec.image_repository }}
     
 # SECURITY IMPLICATIONS 
 Lists of security-related attributes that are opened to the host.
 
--p 80:80
-    Opens container port 80 and maps it to the same port on the host.
+-p {{ spec.http_port }}:{{ spec.http_port }}
+    Opens container port {{ spec.http_port }} and maps it to the same port on the host.
 
 # SEE ALSO
 HAProxy page

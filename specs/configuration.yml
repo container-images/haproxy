@@ -1,0 +1,13 @@
+maintainer: Petr Hracek <phracek@redhat.com>
+
+expose: 5000
+
+short_description: HAProxy reverse proxy for high availability environments.
+description: HAProxy is a TCP/HTTP reverse proxy which is particularly suited for high availability environments.
+
+http_port: 80
+envvars:
+  name: haproxy
+  version: 0
+  release: 1
+  arch: x86_64
